@@ -1,3 +1,4 @@
+<img width="1080" height="2340" alt="Screenshot_1792096783" src="https://github.com/user-attachments/assets/c8c82086-cffe-40d3-af87-0a4b6ddc2908" />
 # bookia_app
 
 A new Flutter project.
