@@ -1,49 +1,43 @@
-import 'package:dio/dio.dart';
 import 'package:bookia_app/core/services/dio_provider.dart';
 import 'package:bookia_app/core/services/local_helper.dart';
+import 'package:bookia_app/core/utils/app_constants.dart';
 import 'package:bookia_app/featuers/auth/data/models/auth_models.dart';
 
 class AuthRepo {
-  static Future<AuthResponse> login(LoginParams params) async {
+  static Future<AuthResponse?> login({
+    required String email,
+    required String password,
+  }) async {
     try {
-      final res = await DioProvider.post('/login', body: params.toJson());
-      final result = AuthResponse.fromJson(res.data);
-      if (result.token != null) await LocalHelper.saveToken(result.token!);
-      return result;
-    } on DioException catch (e) {
-      throw _parseError(e);
+      final response = await DioProvider.post(
+        'https://codingarabic.eraapro.com/api/login',
+        body: LoginParams(email: email, password: password).toJson(),
+      );
+      return AuthResponse.fromJson(Map<String, dynamic>.from(response.data));
+    } catch (_) {
+      return null;
     }
   }
 
-  static Future<AuthResponse> register(RegisterParams params) async {
+  static Future<AuthResponse?> register({
+    required String name,
+    required String email,
+    required String password,
+    required String confirmPassword,
+  }) async {
     try {
-      final res = await DioProvider.post('/register', body: params.toJson());
-      final result = AuthResponse.fromJson(res.data);
-      if (result.token != null) await LocalHelper.saveToken(result.token!);
-      return result;
-    } on DioException catch (e) {
-      throw _parseError(e);
+      final response = await DioProvider.post(
+        'https://codingarabic.eraapro.com/api/register',
+        body: RegisterParams(
+          name: name,
+          email: email,
+          password: password,
+          passwordConfirmation: confirmPassword,
+        ).toJson(),
+      );
+      return AuthResponse.fromJson(Map<String, dynamic>.from(response.data));
+    } catch (_) {
+      return null;
     }
-  }
-
-  /// بيطلّع أول رسالة خطأ من الـ errors map (422) أو الـ message العامة
-  static String _parseError(DioException e) {
-    final data = e.response?.data;
-    if (data is Map) {
-      final errors = data['errors'];
-      if (errors is Map && errors.isNotEmpty) {
-        final first = errors.values.first;
-        if (first is List && first.isNotEmpty) {
-          return first.first.toString().trim();
-        }
-      }
-      if (data['message'] != null) return data['message'].toString();
-    }
-    if (e.type == DioExceptionType.connectionError ||
-        e.type == DioExceptionType.connectionTimeout ||
-        e.type == DioExceptionType.receiveTimeout) {
-      return 'No internet connection, please try again';
-    }
-    return 'Something went wrong, please try again';
   }
 }

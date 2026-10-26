@@ -1,0 +1,43 @@
+$kind: http-example
+request:
+  url: "{{local}}/products/1000"
+  method: GET
+  headers:
+    Accept: application/json
+    Content-Type: application/json
+response:
+  statusCode: 404
+  statusText: Not Found
+  headers:
+    - key: Host
+      value: 127.0.0.1:8000
+    - key: Date
+      value: Mon, 14 Aug 2023 13:11:01 GMT
+    - key: Date
+      value: Mon, 14 Aug 2023 13:11:01 GMT
+    - key: Connection
+      value: close
+    - key: X-Powered-By
+      value: PHP/8.2.0
+    - key: Cache-Control
+      value: max-age=3600, public
+    - key: Content-Type
+      value: application/json
+    - key: X-RateLimit-Limit
+      value: "60"
+    - key: X-RateLimit-Remaining
+      value: "58"
+    - key: phpdebugbar
+      value: "%7B%22error%22%3A%22Maximum%20header%20size%20exceeded%22%7D"
+    - key: Access-Control-Allow-Origin
+      value: "*"
+  body:
+    type: json
+    content: |-
+      {
+          "data": [],
+          "message": "Not Found",
+          "error": [],
+          "status": 404
+      }
+order: 2000

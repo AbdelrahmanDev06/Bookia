@@ -1,0 +1,91 @@
+$kind: http-example
+request:
+  url: "{{local}}/faqs"
+  method: GET
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Host
+      value: 127.0.0.1:8000
+    - key: Date
+      value: Mon, 14 Aug 2023 13:21:58 GMT
+    - key: Date
+      value: Mon, 14 Aug 2023 13:21:58 GMT
+    - key: Connection
+      value: close
+    - key: X-Powered-By
+      value: PHP/8.2.0
+    - key: Cache-Control
+      value: max-age=3600, public
+    - key: Content-Type
+      value: application/json
+    - key: X-RateLimit-Limit
+      value: "60"
+    - key: X-RateLimit-Remaining
+      value: "59"
+    - key: Access-Control-Allow-Origin
+      value: "*"
+  body:
+    type: json
+    content: |-
+      {
+          "data": {
+              "faqs": [
+                  {
+                      "id": 1,
+                      "question": "Voluptas enim odio et harum.",
+                      "answer": "Mollitia repellat consequatur qui cumque reprehenderit voluptatem."
+                  },
+                  {
+                      "id": 2,
+                      "question": "Nihil dolorum nesciunt adipisci hic.",
+                      "answer": "Neque labore quis perspiciatis ratione accusamus corrupti."
+                  },
+                  {
+                      "id": 3,
+                      "question": "Eos voluptas quia placeat sed rem.",
+                      "answer": "Eos doloribus incidunt labore et."
+                  },
+                  {
+                      "id": 4,
+                      "question": "Itaque recusandae odio velit voluptatibus.",
+                      "answer": "Voluptatem dolor omnis minus."
+                  },
+                  {
+                      "id": 5,
+                      "question": "Et est velit non molestias odio et vel.",
+                      "answer": "In repudiandae esse distinctio aut iste voluptate."
+                  },
+                  {
+                      "id": 6,
+                      "question": "Ab aut ut enim ut minus.",
+                      "answer": "Quia repudiandae nostrum ipsam sapiente porro."
+                  },
+                  {
+                      "id": 7,
+                      "question": "Qui aut qui maxime.",
+                      "answer": "Sed eum eos sit omnis."
+                  },
+                  {
+                      "id": 8,
+                      "question": "Tempora praesentium ut nisi et rerum magnam beatae.",
+                      "answer": "Sapiente minus qui et necessitatibus ab quia consequatur."
+                  },
+                  {
+                      "id": 9,
+                      "question": "Aliquam voluptatem et iste qui facilis voluptates qui.",
+                      "answer": "Provident quo ut et modi nostrum."
+                  },
+                  {
+                      "id": 10,
+                      "question": "Non similique optio dolor modi rerum.",
+                      "answer": "Qui maiores impedit nesciunt est et laboriosam."
+                  }
+              ]
+          },
+          "message": "",
+          "error": [],
+          "status": 200
+      }
+order: 1000
