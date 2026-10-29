@@ -1,8 +1,0 @@
-$kind: http-request
-url: "{{local}}/categories/100"
-method: GET
-headers:
-  Accept: application/json
-  Content-Type: application/json
-examples: ./.resources/Show Category.resources/examples
-order: 2000
