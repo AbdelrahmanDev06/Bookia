@@ -50,6 +50,31 @@ class HomeRepo {
     }
   }
 
+  static Future<ProductModel?> getProductDetails(int id) async {
+    try {
+      final response = await DioProvider.get('$_baseUrl/products/$id');
+      return ProductModel.fromDetailsResponse(
+        Map<String, dynamic>.from(response.data),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
+  static Future<List<ProductModel>?> searchProducts(String name) async {
+    try {
+      final response = await DioProvider.get(
+        '$_baseUrl/products-search',
+        query: {'name': name},
+      );
+      return ProductModel.listFromResponse(
+        Map<String, dynamic>.from(response.data),
+      );
+    } catch (_) {
+      return null;
+    }
+  }
+
   static int _lastPage(Map<String, dynamic> json) {
     final data = json['data'];
     final meta = data is Map ? data['meta'] : null;

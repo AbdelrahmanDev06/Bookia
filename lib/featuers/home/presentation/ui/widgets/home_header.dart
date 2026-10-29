@@ -1,3 +1,4 @@
+import 'package:bookia_app/core/routes/app_routes.dart';
 import 'package:bookia_app/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,7 @@ class HomeHeader extends StatelessWidget {
         const Spacer(),
         IconButton(
           padding: EdgeInsets.zero,
-          onPressed: () {},
+          onPressed: () => Navigator.pushNamed(context, AppRoutes.search),
           icon: Icon(
             Icons.search_rounded,
             size: 26.sp,

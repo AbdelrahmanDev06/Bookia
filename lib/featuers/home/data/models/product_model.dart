@@ -46,6 +46,24 @@ class ProductModel {
         .toList();
   }
 
+  static ProductModel? fromDetailsResponse(Map<String, dynamic> json) {
+    final data = json['data'];
+    if (data is! Map) return null;
+    final candidates = [data['product'], data['products'], data];
+    for (final c in candidates) {
+      if (c is Map && c['id'] != null) {
+        return ProductModel.fromJson(Map<String, dynamic>.from(c));
+      }
+    }
+    return null;
+  }
+
+  String get plainDescription => description
+      .replaceAll(RegExp(r'<[^>]*>'), ' ')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+
   String get formattedPrice => priceAfterDiscount % 1 == 0
       ? priceAfterDiscount.toInt().toString()
       : priceAfterDiscount.toStringAsFixed(2);
