@@ -8,7 +8,7 @@ class ProductCard extends StatelessWidget {
 
   final ProductModel product;
 
-  static const String _currency = '₹';
+  static const String _currency = '';
 
   @override
   Widget build(BuildContext context) {
@@ -68,10 +68,7 @@ class ProductCard extends StatelessWidget {
                   '$_currency${product.formattedPrice}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppColors.darkColor,
-                  ),
+                  style: TextStyle(fontSize: 14.sp, color: AppColors.darkColor),
                 ),
               ),
               SizedBox(

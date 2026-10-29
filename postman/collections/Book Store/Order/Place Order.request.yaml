@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{local}}/place-order"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "governorate_id":4,
+        "name" : "ahmed",
+        "phone" : "010101010101",
+        "address":"cairo",
+        "email" : "sayed@gmail.com"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Place Order.resources/examples
+order: 2000

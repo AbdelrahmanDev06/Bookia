@@ -1,0 +1,23 @@
+$kind: http-request
+url: "{{local}}/contact-us"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: formdata
+  content:
+    - type: text
+      key: name
+      value: mohammed
+    - type: text
+      key: email
+      value: m@m.m
+    - type: text
+      key: subject
+      value: new sub
+    - type: text
+      key: message
+      value: new message
+examples: ./.resources/Send Message.resources/examples
+order: 1000

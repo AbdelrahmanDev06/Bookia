@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{local}}/profile"
+method: GET
+headers:
+  Accept: application/json
+  Content-Type: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Show Profile.resources/examples
+order: 1000

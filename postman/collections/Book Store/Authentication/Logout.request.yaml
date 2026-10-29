@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{local}}/logout"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: formdata
+  content: []
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Logout.resources/examples
+order: 3000

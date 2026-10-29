@@ -1,0 +1,54 @@
+$kind: http-example
+request:
+  url: "{{local}}/products-search?name=aqaaaq"
+  method: GET
+  queryParams:
+    name: aqaaaq
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Host
+      value: 127.0.0.1:8000
+    - key: Date
+      value: Mon, 14 Aug 2023 13:15:05 GMT
+    - key: Date
+      value: Mon, 14 Aug 2023 13:15:05 GMT
+    - key: Connection
+      value: close
+    - key: X-Powered-By
+      value: PHP/8.2.0
+    - key: Cache-Control
+      value: max-age=3600, public
+    - key: Content-Type
+      value: application/json
+    - key: X-RateLimit-Limit
+      value: "60"
+    - key: X-RateLimit-Remaining
+      value: "59"
+    - key: Access-Control-Allow-Origin
+      value: "*"
+  body:
+    type: json
+    content: |-
+      {
+          "data": {
+              "products": [],
+              "meta": {
+                  "total": 0,
+                  "per_page": 15,
+                  "current_page": 1,
+                  "last_page": 1
+              },
+              "links": {
+                  "first": "http://127.0.0.1:8000/api/products-search?page=1",
+                  "last": "http://127.0.0.1:8000/api/products-search?page=1",
+                  "prev": null,
+                  "next": null
+              }
+          },
+          "message": "",
+          "error": [],
+          "status": 200
+      }
+order: 2000

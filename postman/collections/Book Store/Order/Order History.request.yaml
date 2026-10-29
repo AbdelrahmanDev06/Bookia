@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{local}}/order-history"
+method: GET
+headers:
+  Accept: application/json
+  Content-Type: application/json
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Order History.resources/examples
+order: 3000

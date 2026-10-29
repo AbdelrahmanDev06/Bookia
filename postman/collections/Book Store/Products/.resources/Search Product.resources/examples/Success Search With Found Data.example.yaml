@@ -1,0 +1,235 @@
+$kind: http-example
+request:
+  url: "{{local}}/products-search?name=a"
+  method: GET
+  queryParams:
+    name: a
+response:
+  statusCode: 200
+  statusText: OK
+  headers:
+    - key: Host
+      value: 127.0.0.1:8000
+    - key: Date
+      value: Mon, 14 Aug 2023 13:14:32 GMT
+    - key: Date
+      value: Mon, 14 Aug 2023 13:14:32 GMT
+    - key: Connection
+      value: close
+    - key: X-Powered-By
+      value: PHP/8.2.0
+    - key: Cache-Control
+      value: max-age=3600, public
+    - key: Content-Type
+      value: application/json
+    - key: X-RateLimit-Limit
+      value: "60"
+    - key: X-RateLimit-Remaining
+      value: "56"
+    - key: Access-Control-Allow-Origin
+      value: "*"
+  body:
+    type: json
+    content: |-
+      {
+          "data": {
+              "products": [
+                  {
+                      "id": 6,
+                      "name": "occaecati",
+                      "description": "Illo ea id velit nobis. Commodi delectus qui blanditiis iusto ea non. Tempora architecto dignissimos vel hic consectetur maxime repudiandae. Rerum culpa sit est molestiae quaerat odio voluptates a.",
+                      "price": "281.00",
+                      "discount": 32,
+                      "price_after_discount": 191.07999999999998,
+                      "stock": 41,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-1.webp",
+                      "category": "et"
+                  },
+                  {
+                      "id": 8,
+                      "name": "saepe",
+                      "description": "Qui est blanditiis et vitae. Est quas officiis sunt quisquam et maxime neque voluptas. Ducimus dolor velit qui alias. Odit rerum voluptas voluptas ad nihil. In omnis mollitia provident.",
+                      "price": "214.00",
+                      "discount": 47,
+                      "price_after_discount": 113.42,
+                      "stock": 47,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-5.webp",
+                      "category": "provident"
+                  },
+                  {
+                      "id": 9,
+                      "name": "veritatis",
+                      "description": "Omnis iure tenetur et qui dolorem. Id totam possimus qui ut. Perspiciatis accusantium quis et facilis voluptate natus nostrum.",
+                      "price": "155.00",
+                      "discount": 6,
+                      "price_after_discount": 145.7,
+                      "stock": 14,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-2.webp",
+                      "category": "et"
+                  },
+                  {
+                      "id": 14,
+                      "name": "aut",
+                      "description": "Et distinctio eveniet eligendi nam. Quis aut non et aliquid asperiores ratione. Sed accusantium est quos. Omnis fuga rem quidem voluptates eligendi consequatur. Omnis omnis aperiam ducimus ut.",
+                      "price": "201.00",
+                      "discount": 20,
+                      "price_after_discount": 160.8,
+                      "stock": 28,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-4.webp",
+                      "category": "ea"
+                  },
+                  {
+                      "id": 17,
+                      "name": "quam",
+                      "description": "Porro consequatur sunt non ut reprehenderit. Ut harum explicabo voluptatem sint. Animi odit et deserunt sit et officia.",
+                      "price": "341.00",
+                      "discount": 32,
+                      "price_after_discount": 231.88,
+                      "stock": 28,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-4.webp",
+                      "category": "et"
+                  },
+                  {
+                      "id": 18,
+                      "name": "consequatur",
+                      "description": "Natus laudantium nulla est voluptas tempore voluptas consectetur perferendis. Aut aperiam rerum consequatur temporibus qui aspernatur. Officia odit autem aperiam a. Aut illum ipsa voluptatem.",
+                      "price": "153.00",
+                      "discount": 97,
+                      "price_after_discount": 4.590000000000003,
+                      "stock": 15,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-5.webp",
+                      "category": "quisquam"
+                  },
+                  {
+                      "id": 19,
+                      "name": "consequatur",
+                      "description": "Repellat minima sapiente ea sequi quisquam fugiat ea. Corporis consequatur consequatur ducimus cumque iure. Ut tempora dicta nisi.",
+                      "price": "294.00",
+                      "discount": 38,
+                      "price_after_discount": 182.28,
+                      "stock": 11,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-5.webp",
+                      "category": "est"
+                  },
+                  {
+                      "id": 20,
+                      "name": "totam",
+                      "description": "Consectetur non voluptatem ullam ducimus corrupti. Alias ex ut voluptates dolorem quo voluptatum. Optio non debitis sed enim qui et eius.",
+                      "price": "437.00",
+                      "discount": 48,
+                      "price_after_discount": 227.24,
+                      "stock": 42,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-2.webp",
+                      "category": "provident"
+                  },
+                  {
+                      "id": 27,
+                      "name": "architecto",
+                      "description": "Aspernatur ea eius neque eligendi deleniti. Deserunt voluptatibus et debitis sed. Ut enim sint esse adipisci ea sit.",
+                      "price": "303.00",
+                      "discount": 58,
+                      "price_after_discount": 127.25999999999999,
+                      "stock": 32,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-1.webp",
+                      "category": "quisquam"
+                  },
+                  {
+                      "id": 28,
+                      "name": "vitae",
+                      "description": "Praesentium natus saepe maiores culpa iste sed. Eaque ut tempora eum aut libero. Enim sit qui et nisi sint est.",
+                      "price": "175.00",
+                      "discount": 79,
+                      "price_after_discount": 36.75,
+                      "stock": 19,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-2.webp",
+                      "category": "quisquam"
+                  },
+                  {
+                      "id": 29,
+                      "name": "recusandae",
+                      "description": "Sunt sit error fugiat aut dignissimos. Iure id voluptatum fuga vel. Ipsum eligendi molestiae consequatur temporibus et odio nostrum.",
+                      "price": "455.00",
+                      "discount": 74,
+                      "price_after_discount": 118.30000000000001,
+                      "stock": 10,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-3.webp",
+                      "category": "quia"
+                  },
+                  {
+                      "id": 32,
+                      "name": "magni",
+                      "description": "Neque voluptate non temporibus corrupti. Explicabo fuga consequatur quasi sequi rerum placeat nostrum ratione. Consequuntur eveniet odio voluptatem commodi. Maxime sit mollitia et quia vitae.",
+                      "price": "432.00",
+                      "discount": 60,
+                      "price_after_discount": 172.8,
+                      "stock": 42,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-2.webp",
+                      "category": "quia"
+                  },
+                  {
+                      "id": 36,
+                      "name": "eaque",
+                      "description": "Et qui consectetur dignissimos sapiente dolorum numquam. Odit accusantium explicabo facilis. Soluta ut maiores quo vel unde et et. Rerum adipisci quidem corrupti aut enim maiores.",
+                      "price": "205.00",
+                      "discount": 78,
+                      "price_after_discount": 45.099999999999994,
+                      "stock": 26,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-5.webp",
+                      "category": "ea"
+                  },
+                  {
+                      "id": 38,
+                      "name": "facilis",
+                      "description": "Et debitis aut occaecati error dolores. Vitae facere mollitia eaque vero fugit ipsa hic. Aspernatur rerum ut facere.",
+                      "price": "354.00",
+                      "discount": 77,
+                      "price_after_discount": 81.42000000000002,
+                      "stock": 38,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-4.webp",
+                      "category": "quia"
+                  },
+                  {
+                      "id": 42,
+                      "name": "fuga",
+                      "description": "Accusamus ipsam fuga repellat ipsam eaque amet. Id voluptas dolores asperiores et. Id adipisci et ullam magni architecto aut accusamus facere. Rerum soluta eos id quaerat hic blanditiis.",
+                      "price": "421.00",
+                      "discount": 83,
+                      "price_after_discount": 71.57,
+                      "stock": 39,
+                      "best_seller": 0,
+                      "image": "http://127.0.0.1:8000/front/assets/images/product-3.webp",
+                      "category": "ea"
+                  }
+              ],
+              "meta": {
+                  "total": 17,
+                  "per_page": 15,
+                  "current_page": 1,
+                  "last_page": 2
+              },
+              "links": {
+                  "first": "http://127.0.0.1:8000/api/products-search?page=1",
+                  "last": "http://127.0.0.1:8000/api/products-search?page=2",
+                  "prev": null,
+                  "next": "http://127.0.0.1:8000/api/products-search?page=2"
+              }
+          },
+          "message": "",
+          "error": [],
+          "status": 200
+      }
+order: 1000
