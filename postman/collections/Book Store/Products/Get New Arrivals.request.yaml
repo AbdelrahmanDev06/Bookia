@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{local}}/products-new-arrivals"
+method: GET
+headers:
+  Accept: application/json
+  Content-Type: application/json
+examples: ./.resources/Get New Arrivals.resources/examples
+order: 5000

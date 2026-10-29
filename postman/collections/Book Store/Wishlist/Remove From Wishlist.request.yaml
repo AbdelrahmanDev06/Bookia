@@ -1,0 +1,15 @@
+$kind: http-request
+url: "{{local}}/remove-from-wishlist"
+method: POST
+body:
+  type: text
+  content: |-
+    {
+        "product_id" : 12
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Remove From Wishlist.resources/examples
+order: 2000

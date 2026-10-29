@@ -1,0 +1,18 @@
+$kind: http-request
+url: "{{local}}/add-to-cart"
+method: POST
+headers:
+  Accept: application/json
+  Content-Type: application/json
+body:
+  type: text
+  content: |-
+    {
+        "product_id":12
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{token}}"
+examples: ./.resources/Add To Cart.resources/examples
+order: 2000

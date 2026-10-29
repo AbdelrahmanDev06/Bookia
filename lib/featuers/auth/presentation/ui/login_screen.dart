@@ -1,90 +1,90 @@
-import 'package:bookia_app/core/routes/app_routes.dart';
-import 'package:bookia_app/core/theme/app_colors.dart';
-import 'package:bookia_app/core/theme/app_text_style.dart';
-import 'package:bookia_app/featuers/auth/presentation/cubit/auth_cubit.dart';
-import 'package:bookia_app/featuers/auth/presentation/ui/widgets/login_form.dart';
+import 'package:bookia_app/core/services/api_service.dart';
+import 'package:bookia_app/featuers/auth/presentation/ui/forgot_password.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'register_screen.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _apiService = ApiService();
+  bool _isLoading = false;
+
+  void _handleLogin() async {
+    setState(() => _isLoading = true);
+    try {
+      final res = await _apiService.login(
+        _emailController.text,
+        _passwordController.text,
+      );
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(res['message'] ?? 'Login Attempted')),
+        );
+      }
+    } catch (e) {
+      setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => AuthCubit(),
-      child: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is LoginErrorState) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Invalid email or password')),
-              );
-          } else if (state is LoginSuccessState) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(content: Text('Logged in successfully')),
-              );
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AppRoutes.HomeScreen,
-              (_) => false,
-            );
-          }
-        },
-        child: Scaffold(
-          body: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 22.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20.h),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back_ios_new),
-                  ),
-                  SizedBox(height: 28.h),
-                  Text(
-                    'Welcome Back! Glad to see you again!',
-                    style: AppTextStyle.font30Regular,
-                  ),
-                  SizedBox(height: 32.h),
-                  const LoginForm(),
-                  SizedBox(height: 24.h),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don't have an account? ",
-                        style: TextStyle(
-                          fontSize: 15.sp,
-                          color: AppColors.darkColor,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () => Navigator.pushReplacementNamed(
-                          context,
-                          AppRoutes.registerScreen,
-                        ),
-                        child: Text(
-                          'Register Now',
-                          style: TextStyle(
-                            fontSize: 15.sp,
-                            color: AppColors.mainColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+    return Scaffold(
+      appBar: AppBar(title: const Text('Login')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
             ),
-          ),
+            TextField(
+              controller: _passwordController,
+              decoration: const InputDecoration(labelText: 'Password'),
+              obscureText: true,
+            ),
+            const SizedBox(height: 20),
+            _isLoading
+                ? const CircularProgressIndicator()
+                : ElevatedButton(
+                    onPressed: _handleLogin,
+                    child: const Text('Login'),
+                  ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const ForgetPasswordScreen(),
+                  ),
+                );
+              },
+              child: const Text('Forgot Password?'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
+                );
+              },
+              child: const Text("Don't have an account? Register"),
+            ),
+          ],
         ),
       ),
     );
