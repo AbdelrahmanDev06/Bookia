@@ -1,7 +1,0 @@
-$kind: http-request
-url: "{{local}}/products-search?name=aqaaaq"
-method: GET
-queryParams:
-  name: aqaaaq
-examples: ./.resources/Search Product.resources/examples
-order: 3000

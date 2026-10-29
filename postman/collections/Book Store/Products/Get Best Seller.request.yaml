@@ -1,8 +1,0 @@
-$kind: http-request
-url: "{{local}}/products-bestseller"
-method: GET
-headers:
-  Accept: application/json
-  Content-Type: application/json
-examples: ./.resources/Get Best Seller.resources/examples
-order: 6000
