@@ -1,3 +1,5 @@
+import 'package:bookia_app/core/routes/app_routes.dart';
+import 'package:bookia_app/core/services/local_helper.dart';
 import 'package:bookia_app/core/services/api_service.dart';
 import 'package:bookia_app/featuers/auth/presentation/ui/forgot_password.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final _apiService = ApiService();
   bool _isLoading = false;
 
+  Future<void> _goHomeIfAuthenticated(Map<String, dynamic> res) async {
+    final data = res['data'];
+    final token = data is Map ? data['token']?.toString() : null;
+    if (token == null || token.isEmpty) return;
+    await LocalHelper.saveToken(token);
+    if (!mounted) return;
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      AppRoutes.HomeScreen,
+      (_) => false,
+    );
+  }
+
   void _handleLogin() async {
     setState(() => _isLoading = true);
     try {
@@ -29,6 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
           SnackBar(content: Text(res['message'] ?? 'Login Attempted')),
         );
       }
+      await _goHomeIfAuthenticated(res);
     } catch (e) {
       setState(() => _isLoading = false);
       if (mounted) {

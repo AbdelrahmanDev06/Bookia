@@ -2,7 +2,6 @@ import 'package:bookia_app/core/theme/app_colors.dart';
 import 'package:bookia_app/core/widgets/main_button.dart';
 import 'package:bookia_app/featuers/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/widgets/home_banner.dart';
-import 'package:bookia_app/featuers/home/presentation/ui/widgets/home_bottom_nav_bar.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/widgets/home_header.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/widgets/products_sliver_grid.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ class HomeScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => HomeCubit()..getHomeData(),
       child: Scaffold(
-        bottomNavigationBar: const HomeBottomNavBar(),
         body: SafeArea(
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {

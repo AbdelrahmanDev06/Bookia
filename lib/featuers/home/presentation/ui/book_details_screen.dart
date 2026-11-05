@@ -1,5 +1,8 @@
 import 'package:bookia_app/core/theme/app_colors.dart';
 import 'package:bookia_app/core/widgets/main_button.dart';
+import 'package:bookia_app/core/widgets/state_views.dart';
+import 'package:bookia_app/featuers/cart/presentation/cubit/cart_cubit.dart';
+import 'package:bookia_app/featuers/wishlist/presentation/cubit/wishlist_cubit.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/presentation/cubit/book_details_cubit.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +13,33 @@ class BookDetailsScreen extends StatelessWidget {
   const BookDetailsScreen({super.key, required this.product});
 
   final ProductModel product;
+
+  Future<void> _toggleWishlist(
+    BuildContext context,
+    int productId,
+    bool saved,
+  ) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final ok = await context.read<WishlistCubit>().toggle(productId);
+    if (!ok) {
+      showAppSnackBar(messenger, 'Something went wrong', isError: true);
+      return;
+    }
+    showAppSnackBar(
+      messenger,
+      saved ? 'Removed from wishlist' : 'Added to wishlist',
+    );
+  }
+
+  Future<void> _addToCart(BuildContext context, int productId) async {
+    final messenger = ScaffoldMessenger.of(context);
+    final ok = await context.read<CartCubit>().addToCart(productId);
+    showAppSnackBar(
+      messenger,
+      ok ? 'Added to cart' : 'Failed to add to cart',
+      isError: !ok,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +64,26 @@ class BookDetailsScreen extends StatelessWidget {
                           icon: Icons.arrow_back_ios_new,
                           onTap: () => Navigator.pop(context),
                         ),
-                        IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.bookmark_border,
-                            size: 26.sp,
-                            color: AppColors.darkColor,
-                          ),
+                        BlocBuilder<WishlistCubit, WishlistState>(
+                          builder: (context, _) {
+                            final saved = context
+                                .read<WishlistCubit>()
+                                .isInWishlist(book.id);
+                            return IconButton(
+                              onPressed: () => _toggleWishlist(
+                                context,
+                                book.id,
+                                saved,
+                              ),
+                              icon: Icon(
+                                saved ? Icons.bookmark : Icons.bookmark_border,
+                                size: 26.sp,
+                                color: saved
+                                    ? AppColors.mainColor
+                                    : AppColors.darkColor,
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -117,7 +160,7 @@ class BookDetailsScreen extends StatelessWidget {
                           child: MainButton(
                             text: 'Add To Cart',
                             backgroundColor: AppColors.darkColor,
-                            onPressed: () {},
+                            onPressed: () => _addToCart(context, book.id),
                           ),
                         ),
                       ],

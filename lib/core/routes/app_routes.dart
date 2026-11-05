@@ -6,5 +6,6 @@ class AppRoutes {
   static const String bookDetails = '/book-details';
   static const String search = '/search';
   static const String profileScreen = '/profile';
+  static const String editProfile = '/edit-profile';
   static const String settingsScreen = '/settings';
 }

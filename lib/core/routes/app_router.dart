@@ -3,8 +3,9 @@ import 'package:bookia_app/featuers/auth/presentation/ui/login_screen.dart';
 import 'package:bookia_app/featuers/auth/presentation/ui/register_screen.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/book_details_screen.dart';
-import 'package:bookia_app/featuers/home/presentation/ui/home_screen.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/search_screen.dart';
+import 'package:bookia_app/featuers/main/presentation/ui/main_screen.dart';
+import 'package:bookia_app/featuers/profile/presentation/ui/edit_profile_screen.dart';
 import 'package:bookia_app/featuers/welcome/presentation/ui/welcome_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -18,9 +19,12 @@ class AppRouter {
       case AppRoutes.WelcomeScreen:
         return MaterialPageRoute(builder: (_) => const WelcomeScreen());
       case AppRoutes.HomeScreen:
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
+        // home now opens the main screen that holds the bottom nav bar
+        return MaterialPageRoute(builder: (_) => const MainScreen());
       case AppRoutes.search:
         return MaterialPageRoute(builder: (_) => const SearchScreen());
+      case AppRoutes.editProfile:
+        return MaterialPageRoute(builder: (_) => const EditProfileScreen());
       case AppRoutes.bookDetails:
         final product = settings.arguments as ProductModel;
         return MaterialPageRoute(
