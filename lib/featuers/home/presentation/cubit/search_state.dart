@@ -13,4 +13,7 @@ final class SearchSuccessState extends SearchState {
   SearchSuccessState(this.products);
 }
 
-final class SearchErrorState extends SearchState {}
+final class SearchErrorState extends SearchState {
+  final String message;
+  SearchErrorState(this.message);
+}

@@ -1,5 +1,5 @@
 import 'package:bookia_app/core/theme/app_colors.dart';
-import 'package:bookia_app/core/widgets/main_button.dart';
+import 'package:bookia_app/core/widgets/state_views.dart';
 import 'package:bookia_app/featuers/home/presentation/cubit/home_cubit.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/widgets/home_banner.dart';
 import 'package:bookia_app/featuers/home/presentation/ui/widgets/home_header.dart';
@@ -62,28 +62,9 @@ class HomeScreen extends StatelessWidget {
               }
 
               if (state is HomeErrorState) {
-                return Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 22.w),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Something went wrong',
-                          style: TextStyle(
-                            fontSize: 18.sp,
-                            color: AppColors.darkColor,
-                          ),
-                        ),
-                        SizedBox(height: 20.h),
-                        MainButton(
-                          text: 'Try again',
-                          onPressed: () =>
-                              context.read<HomeCubit>().getHomeData(),
-                        ),
-                      ],
-                    ),
-                  ),
+                return ErrorView(
+                  message: state.message,
+                  onRetry: () => context.read<HomeCubit>().getHomeData(),
                 );
               }
 

@@ -1,62 +1,110 @@
-import 'package:bookia_app/core/services/api_service.dart';
+import 'package:bookia_app/core/theme/app_colors.dart';
+import 'package:bookia_app/core/widgets/custom_text_field.dart';
+import 'package:bookia_app/core/widgets/main_button.dart';
+import 'package:bookia_app/core/widgets/state_views.dart';
+import 'package:bookia_app/featuers/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia_app/featuers/profile/presentation/ui/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
-  const ForgetPasswordScreen({Key? key}) : super(key: key);
+  const ForgetPasswordScreen({super.key});
 
   @override
   State<ForgetPasswordScreen> createState() => _ForgetPasswordScreenState();
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final _emailController = TextEditingController();
-  final _apiService = ApiService();
-  bool _isLoading = false;
+  final _formKey = GlobalKey<FormState>();
+  final _emailCtrl = TextEditingController();
 
-  void _handleForgetPassword() async {
-    setState(() => _isLoading = true);
-    try {
-      final res = await _apiService.forgetPassword(_emailController.text);
-      setState(() => _isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(res['message'] ?? 'Password reset request sent'),
-          ),
-        );
-      }
-    } catch (e) {
-      setState(() => _isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(e.toString())));
-      }
-    }
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    super.dispose();
+  }
+
+  void _submit(BuildContext context) {
+    if (!_formKey.currentState!.validate()) return;
+    FocusScope.of(context).unfocus();
+    context.read<AuthCubit>().forgetPassword(_emailCtrl.text.trim());
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Forgot Password')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _handleForgetPassword,
-                    child: const Text('Send Reset Link'),
+    return BlocProvider(
+      create: (_) => AuthCubit(),
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          final messenger = ScaffoldMessenger.of(context);
+          if (state is ForgetPasswordSuccessState) {
+            showAppSnackBar(messenger, state.message);
+          } else if (state is ForgetPasswordErrorState) {
+            showAppSnackBar(messenger, state.message, isError: true);
+          }
+        },
+        builder: (context, state) {
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 22.w,
+                  vertical: 20.h,
+                ),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SquareBackButton(),
+                      SizedBox(height: 28.h),
+                      Text(
+                        'Forgot Password?',
+                        style: TextStyle(
+                          fontSize: 30.sp,
+                          color: AppColors.darkColor,
+                        ),
+                      ),
+                      SizedBox(height: 10.h),
+                      Text(
+                        "Don't worry! Please enter the email address linked "
+                        'with your account.',
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          color: AppColors.darkgreyColor,
+                        ),
+                      ),
+                      SizedBox(height: 32.h),
+                      CustomTextField(
+                        controller: _emailCtrl,
+                        hint: 'Enter your email',
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (v) {
+                          if (v == null || v.trim().isEmpty) {
+                            return 'Email is required';
+                          }
+                          final ok = RegExp(
+                            r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
+                          ).hasMatch(v.trim());
+                          return ok ? null : 'Enter a valid email';
+                        },
+                      ),
+                      SizedBox(height: 30.h),
+                      if (state is LoadLoadingState)
+                        const LoadingView()
+                      else
+                        MainButton(
+                          text: 'Send Code',
+                          onPressed: () => _submit(context),
+                        ),
+                    ],
                   ),
-          ],
-        ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -19,4 +19,7 @@ final class HomeSuccessState extends HomeState {
   });
 }
 
-final class HomeErrorState extends HomeState {}
+final class HomeErrorState extends HomeState {
+  final String message;
+  HomeErrorState(this.message);
+}

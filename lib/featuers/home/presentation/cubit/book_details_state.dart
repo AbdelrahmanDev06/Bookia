@@ -13,4 +13,7 @@ final class BookDetailsSuccessState extends BookDetailsState {
   BookDetailsSuccessState(this.product);
 }
 
-final class BookDetailsErrorState extends BookDetailsState {}
+final class BookDetailsErrorState extends BookDetailsState {
+  final String message;
+  BookDetailsErrorState(this.message);
+}

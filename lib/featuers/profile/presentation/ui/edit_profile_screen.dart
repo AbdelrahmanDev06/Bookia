@@ -53,7 +53,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final navigator = Navigator.of(context);
     setState(() => _loading = true);
 
-    final ok = await context.read<ProfileCubit>().updateProfile(
+    final error = await context.read<ProfileCubit>().updateProfile(
           name: _name.text.trim(),
           phone: _phone.text.trim(),
           city: _city.text.trim(),
@@ -63,11 +63,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (!mounted) return;
     setState(() => _loading = false);
 
-    if (ok) {
+    if (error == null) {
       showAppSnackBar(messenger, 'Profile updated successfully');
       navigator.pop();
     } else {
-      showAppSnackBar(messenger, 'Failed to update profile', isError: true);
+      showAppSnackBar(messenger, error, isError: true);
     }
   }
 

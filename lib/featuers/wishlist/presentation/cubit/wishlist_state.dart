@@ -13,4 +13,7 @@ final class WishlistSuccessState extends WishlistState {
   WishlistSuccessState(this.products);
 }
 
-final class WishlistErrorState extends WishlistState {}
+final class WishlistErrorState extends WishlistState {
+  final String message;
+  WishlistErrorState(this.message);
+}

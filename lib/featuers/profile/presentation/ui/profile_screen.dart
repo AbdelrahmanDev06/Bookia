@@ -82,7 +82,10 @@ class ProfileScreen extends StatelessWidget {
                   final cubit = context.read<ProfileCubit>();
 
                   if (state is ProfileErrorState) {
-                    return ErrorView(onRetry: cubit.getProfile);
+                    return ErrorView(
+                      message: state.message,
+                      onRetry: cubit.getProfile,
+                    );
                   }
                   if (state is! ProfileSuccessState) {
                     return const LoadingView();

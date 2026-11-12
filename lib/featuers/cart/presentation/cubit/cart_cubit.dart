@@ -4,6 +4,7 @@ import 'package:bookia_app/featuers/cart/data/repo/cart_repo.dart';
 import 'package:meta/meta.dart';
 part 'cart_state.dart';
 
+/// action methods return `null` on success, or the error message on failure
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
 
@@ -15,54 +16,73 @@ class CartCubit extends Cubit<CartState> {
   Future<void> getCart() async {
     if (_cart == null) emit(CartLoadingState());
 
-    final cart = await CartRepo.getCart();
-    if (cart != null) {
+    final result = await CartRepo.getCart();
+    result.fold(
+      (failure) {
+        // keep showing the old cart if we already have one
+        if (_cart == null) emit(CartErrorState(failure.message));
+      },
+      (cart) => emit(CartSuccessState(cart)),
+    );
+  }
+
+  Future<String?> addToCart(int productId) async {
+    final result = await CartRepo.addToCart(productId);
+    return result.fold<String?>((failure) => failure.message, (cart) {
       emit(CartSuccessState(cart));
-    } else if (_cart == null) {
-      emit(CartErrorState());
-    }
+      return null;
+    });
   }
 
-  Future<bool> addToCart(int productId) async {
-    final cart = await CartRepo.addToCart(productId);
-    if (cart == null) return false;
-    emit(CartSuccessState(cart));
-    return true;
-  }
-
-  Future<bool> increment(CartItemModel item) {
+  Future<String?> increment(CartItemModel item) async {
     if (item.stock > 0 && item.quantity >= item.stock) {
-      return Future.value(false);
+      return 'No more items in stock';
     }
     return _updateQuantity(item, item.quantity + 1);
   }
 
-  Future<bool> decrement(CartItemModel item) {
-    if (item.quantity <= 1) return Future.value(false);
+  Future<String?> decrement(CartItemModel item) async {
+    if (item.quantity <= 1) return 'Minimum quantity is 1';
     return _updateQuantity(item, item.quantity - 1);
   }
 
-  Future<bool> _updateQuantity(CartItemModel item, int quantity) async {
+  Future<String?> _updateQuantity(CartItemModel item, int quantity) async {
     final old = _cart;
-    if (old == null) return false;
+    if (old == null) return 'Cart is not loaded yet';
 
     emit(CartSuccessState(old, busyItemId: item.itemId));
-    final cart = await CartRepo.updateCart(
+    final result = await CartRepo.updateCart(
       cartItemId: item.itemId,
       quantity: quantity,
     );
-    emit(CartSuccessState(cart ?? old));
-    return cart != null;
+    return result.fold<String?>(
+      (failure) {
+        emit(CartSuccessState(old));
+        return failure.message;
+      },
+      (cart) {
+        emit(CartSuccessState(cart));
+        return null;
+      },
+    );
   }
 
-  Future<bool> removeItem(CartItemModel item) async {
+  Future<String?> removeItem(CartItemModel item) async {
     final old = _cart;
-    if (old == null) return false;
+    if (old == null) return 'Cart is not loaded yet';
 
     emit(CartSuccessState(old, busyItemId: item.itemId));
-    final cart = await CartRepo.removeFromCart(item.itemId);
-    emit(CartSuccessState(cart ?? old));
-    return cart != null;
+    final result = await CartRepo.removeFromCart(item.itemId);
+    return result.fold<String?>(
+      (failure) {
+        emit(CartSuccessState(old));
+        return failure.message;
+      },
+      (cart) {
+        emit(CartSuccessState(cart));
+        return null;
+      },
+    );
   }
 
   void clear() => emit(CartInitial());

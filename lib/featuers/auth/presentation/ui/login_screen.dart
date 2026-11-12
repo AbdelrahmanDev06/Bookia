@@ -1,106 +1,85 @@
 import 'package:bookia_app/core/routes/app_routes.dart';
-import 'package:bookia_app/core/services/local_helper.dart';
-import 'package:bookia_app/core/services/api_service.dart';
+import 'package:bookia_app/core/theme/app_colors.dart';
+import 'package:bookia_app/core/widgets/state_views.dart';
+import 'package:bookia_app/featuers/auth/presentation/cubit/auth_cubit.dart';
 import 'package:bookia_app/featuers/auth/presentation/ui/forgot_password.dart';
+import 'package:bookia_app/featuers/auth/presentation/ui/widgets/login_form.dart';
+import 'package:bookia_app/featuers/profile/presentation/ui/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
-import 'register_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
-
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _apiService = ApiService();
-  bool _isLoading = false;
-
-  Future<void> _goHomeIfAuthenticated(Map<String, dynamic> res) async {
-    final data = res['data'];
-    final token = data is Map ? data['token']?.toString() : null;
-    if (token == null || token.isEmpty) return;
-    await LocalHelper.saveToken(token);
-    if (!mounted) return;
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      AppRoutes.HomeScreen,
-      (_) => false,
-    );
-  }
-
-  void _handleLogin() async {
-    setState(() => _isLoading = true);
-    try {
-      final res = await _apiService.login(
-        _emailController.text,
-        _passwordController.text,
-      );
-      setState(() => _isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(res['message'] ?? 'Login Attempted')),
-        );
-      }
-      await _goHomeIfAuthenticated(res);
-    } catch (e) {
-      setState(() => _isLoading = false);
-      if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text(e.toString())));
-      }
-    }
-  }
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 20),
-            _isLoading
-                ? const CircularProgressIndicator()
-                : ElevatedButton(
-                    onPressed: _handleLogin,
-                    child: const Text('Login'),
+    return BlocProvider(
+      create: (_) => AuthCubit(),
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          final messenger = ScaffoldMessenger.of(context);
+          if (state is LoginSuccessState) {
+            showAppSnackBar(messenger, 'Logged in successfully');
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              AppRoutes.HomeScreen,
+              (_) => false,
+            );
+          } else if (state is LoginErrorState) {
+            showAppSnackBar(messenger, state.message, isError: true);
+          }
+        },
+        child: Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 20.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (Navigator.canPop(context)) const SquareBackButton(),
+                  SizedBox(height: 28.h),
+                  Text(
+                    'Welcome back! Glad to see you, Again!',
+                    style: TextStyle(
+                      fontSize: 30.sp,
+                      color: AppColors.darkColor,
+                    ),
                   ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const ForgetPasswordScreen(),
+                  SizedBox(height: 32.h),
+                  const LoginForm(),
+                  Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const ForgetPasswordScreen(),
+                        ),
+                      ),
+                      child: const Text(
+                        'Forgot Password?',
+                        style: TextStyle(color: AppColors.darkgreyColor),
+                      ),
+                    ),
                   ),
-                );
-              },
-              child: const Text('Forgot Password?'),
+                  SizedBox(height: 12.h),
+                  Center(
+                    child: TextButton(
+                      onPressed: () => Navigator.pushReplacementNamed(
+                        context,
+                        AppRoutes.registerScreen,
+                      ),
+                      child: const Text(
+                        "Don't have an account? Register Now",
+                        style: TextStyle(color: AppColors.mainColor),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const RegisterScreen()),
-                );
-              },
-              child: const Text("Don't have an account? Register"),
-            ),
-          ],
+          ),
         ),
       ),
     );

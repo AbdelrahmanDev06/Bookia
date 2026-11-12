@@ -1,23 +1,24 @@
+import 'package:bookia_app/core/errors/failure.dart';
+import 'package:bookia_app/core/errors/safe_api_call.dart';
 import 'package:bookia_app/core/services/dio_provider.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/data/models/slider_model.dart';
+import 'package:dartz/dartz.dart';
 
 class HomeRepo {
   static const String _baseUrl = 'https://codingarabic.eraapro.com/api';
 
-  static Future<List<ProductModel>?> getBestSeller() async {
-    try {
+  static Future<Either<Failure, List<ProductModel>>> getBestSeller() {
+    return safeApiCall(() async {
       final response = await DioProvider.get('$_baseUrl/products-bestseller');
       return ProductModel.listFromResponse(
         Map<String, dynamic>.from(response.data),
       );
-    } catch (_) {
-      return null;
-    }
+    });
   }
 
-  static Future<List<ProductModel>?> getProducts() async {
-    try {
+  static Future<Either<Failure, List<ProductModel>>> getProducts() {
+    return safeApiCall(() async {
       final products = <ProductModel>[];
       var page = 1;
       var lastPage = 1;
@@ -34,35 +35,33 @@ class HomeRepo {
       } while (page <= lastPage);
 
       return products;
-    } catch (_) {
-      return null;
-    }
+    });
   }
 
-  static Future<List<SliderModel>?> getSliders() async {
-    try {
+  static Future<Either<Failure, List<SliderModel>>> getSliders() {
+    return safeApiCall(() async {
       final response = await DioProvider.get('$_baseUrl/sliders');
       return SliderModel.listFromResponse(
         Map<String, dynamic>.from(response.data),
       );
-    } catch (_) {
-      return null;
-    }
+    });
   }
 
-  static Future<ProductModel?> getProductDetails(int id) async {
-    try {
+  static Future<Either<Failure, ProductModel>> getProductDetails(int id) {
+    return safeApiCall(() async {
       final response = await DioProvider.get('$_baseUrl/products/$id');
-      return ProductModel.fromDetailsResponse(
+      final product = ProductModel.fromDetailsResponse(
         Map<String, dynamic>.from(response.data),
       );
-    } catch (_) {
-      return null;
-    }
+      if (product == null) throw const Failure('Book details not found');
+      return product;
+    });
   }
 
-  static Future<List<ProductModel>?> searchProducts(String name) async {
-    try {
+  static Future<Either<Failure, List<ProductModel>>> searchProducts(
+    String name,
+  ) {
+    return safeApiCall(() async {
       final response = await DioProvider.get(
         '$_baseUrl/products-search',
         query: {'name': name},
@@ -70,9 +69,7 @@ class HomeRepo {
       return ProductModel.listFromResponse(
         Map<String, dynamic>.from(response.data),
       );
-    } catch (_) {
-      return null;
-    }
+    });
   }
 
   static int _lastPage(Map<String, dynamic> json) {

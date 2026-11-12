@@ -27,15 +27,14 @@ class SearchCubit extends Cubit<SearchState> {
 
   search(String name) async {
     emit(SearchLoadingState());
-    final products = await HomeRepo.searchProducts(name);
+    final result = await HomeRepo.searchProducts(name);
 
     if (name != _lastQuery) return;
 
-    if (products != null) {
-      emit(SearchSuccessState(products));
-    } else {
-      emit(SearchErrorState());
-    }
+    result.fold(
+      (failure) => emit(SearchErrorState(failure.message)),
+      (products) => emit(SearchSuccessState(products)),
+    );
   }
 
   @override

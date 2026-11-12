@@ -30,9 +30,14 @@ class LoadingView extends StatelessWidget {
 }
 
 class ErrorView extends StatelessWidget {
-  const ErrorView({super.key, required this.onRetry});
+  const ErrorView({
+    super.key,
+    required this.onRetry,
+    this.message = 'Something went wrong',
+  });
 
   final VoidCallback onRetry;
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +47,11 @@ class ErrorView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            Icon(Icons.error_outline, size: 60.sp, color: Colors.red),
+            SizedBox(height: 12.h),
             Text(
-              'Something went wrong',
+              message,
+              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 18.sp, color: AppColors.darkColor),
             ),
             SizedBox(height: 20.h),

@@ -61,7 +61,10 @@ class WishlistScreen extends StatelessWidget {
                   }
 
                   if (state is WishlistErrorState) {
-                    return ErrorView(onRetry: cubit.getWishlist);
+                    return ErrorView(
+                      message: state.message,
+                      onRetry: cubit.getWishlist,
+                    );
                   }
 
                   return const LoadingView();
@@ -82,12 +85,12 @@ class _WishlistCard extends StatelessWidget {
 
   Future<void> _remove(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
-    final ok =
+    final error =
         await context.read<WishlistCubit>().removeFromWishlist(product.id);
     showAppSnackBar(
       messenger,
-      ok ? 'Removed from wishlist' : 'Failed to remove, try again',
-      isError: !ok,
+      error ?? 'Removed from wishlist',
+      isError: error != null,
     );
   }
 

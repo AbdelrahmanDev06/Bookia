@@ -73,7 +73,7 @@ class SearchScreen extends StatelessWidget {
                       }
 
                       if (state is SearchErrorState) {
-                        return const _Message('Something went wrong');
+                        return _Message(state.message);
                       }
 
                       if (state is SearchSuccessState) {

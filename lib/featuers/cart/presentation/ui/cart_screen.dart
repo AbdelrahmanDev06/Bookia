@@ -67,7 +67,10 @@ class CartScreen extends StatelessWidget {
                   }
 
                   if (state is CartErrorState) {
-                    return ErrorView(onRetry: cubit.getCart);
+                    return ErrorView(
+                      message: state.message,
+                      onRetry: cubit.getCart,
+                    );
                   }
 
                   return const LoadingView();
@@ -132,13 +135,12 @@ class _CartItemCard extends StatelessWidget {
 
   Future<void> _run(
     BuildContext context,
-    Future<bool> Function(CartCubit cubit) action,
-    String errorMessage,
+    Future<String?> Function(CartCubit cubit) action,
   ) async {
     if (isBusy) return;
     final messenger = ScaffoldMessenger.of(context);
-    final ok = await action(context.read<CartCubit>());
-    if (!ok) showAppSnackBar(messenger, errorMessage, isError: true);
+    final error = await action(context.read<CartCubit>());
+    if (error != null) showAppSnackBar(messenger, error, isError: true);
   }
 
   @override
@@ -194,7 +196,6 @@ class _CartItemCard extends StatelessWidget {
                       onTap: () => _run(
                         context,
                         (cubit) => cubit.removeItem(item),
-                        'Failed to remove item',
                       ),
                       child: Icon(
                         Icons.highlight_off,
@@ -220,7 +221,6 @@ class _CartItemCard extends StatelessWidget {
                       onTap: () => _run(
                         context,
                         (cubit) => cubit.increment(item),
-                        'No more items in stock',
                       ),
                     ),
                     SizedBox(
@@ -249,7 +249,6 @@ class _CartItemCard extends StatelessWidget {
                       onTap: () => _run(
                         context,
                         (cubit) => cubit.decrement(item),
-                        'Minimum quantity is 1',
                       ),
                     ),
                     const Spacer(),

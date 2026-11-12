@@ -9,14 +9,13 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
 
   final ProductModel initialProduct;
 
-  getDetails() async {
+  Future<void> getDetails() async {
     emit(BookDetailsLoadingState());
-    final product = await HomeRepo.getProductDetails(initialProduct.id);
+    final result = await HomeRepo.getProductDetails(initialProduct.id);
 
-    if (product != null) {
-      emit(BookDetailsSuccessState(product));
-    } else {
-      emit(BookDetailsErrorState());
-    }
+    result.fold(
+      (failure) => emit(BookDetailsErrorState(failure.message)),
+      (product) => emit(BookDetailsSuccessState(product)),
+    );
   }
 }

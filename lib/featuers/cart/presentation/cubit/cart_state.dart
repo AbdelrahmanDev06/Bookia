@@ -16,4 +16,7 @@ final class CartSuccessState extends CartState {
   CartSuccessState(this.cart, {this.busyItemId});
 }
 
-final class CartErrorState extends CartState {}
+final class CartErrorState extends CartState {
+  final String message;
+  CartErrorState(this.message);
+}

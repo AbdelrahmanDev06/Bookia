@@ -4,6 +4,7 @@ import 'package:bookia_app/featuers/wishlist/data/repo/wishlist_repo.dart';
 import 'package:meta/meta.dart';
 part 'wishlist_state.dart';
 
+/// action methods return `null` on success, or the error message on failure
 class WishlistCubit extends Cubit<WishlistState> {
   WishlistCubit() : super(WishlistInitial());
 
@@ -11,12 +12,15 @@ class WishlistCubit extends Cubit<WishlistState> {
     // show the loader only the first time, after that refresh silently
     if (state is! WishlistSuccessState) emit(WishlistLoadingState());
 
-    final products = await WishlistRepo.getWishlist();
-    if (products != null) {
-      emit(WishlistSuccessState(products));
-    } else if (state is! WishlistSuccessState) {
-      emit(WishlistErrorState());
-    }
+    final result = await WishlistRepo.getWishlist();
+    result.fold(
+      (failure) {
+        if (state is! WishlistSuccessState) {
+          emit(WishlistErrorState(failure.message));
+        }
+      },
+      (products) => emit(WishlistSuccessState(products)),
+    );
   }
 
   bool isInWishlist(int productId) {
@@ -25,13 +29,14 @@ class WishlistCubit extends Cubit<WishlistState> {
         current.products.any((p) => p.id == productId);
   }
 
-  Future<bool> addToWishlist(int productId) async {
-    final ok = await WishlistRepo.addToWishlist(productId);
-    if (ok) await getWishlist();
-    return ok;
+  Future<String?> addToWishlist(int productId) async {
+    final result = await WishlistRepo.addToWishlist(productId);
+    final error = result.fold<String?>((failure) => failure.message, (_) => null);
+    if (error == null) await getWishlist();
+    return error;
   }
 
-  Future<bool> removeFromWishlist(int productId) async {
+  Future<String?> removeFromWishlist(int productId) async {
     final current = state;
     if (current is WishlistSuccessState) {
       emit(
@@ -40,12 +45,13 @@ class WishlistCubit extends Cubit<WishlistState> {
         ),
       );
     }
-    final ok = await WishlistRepo.removeFromWishlist(productId);
+    final result = await WishlistRepo.removeFromWishlist(productId);
+    // re-sync with the server (restores the item if the remove failed)
     await getWishlist();
-    return ok;
+    return result.fold<String?>((failure) => failure.message, (_) => null);
   }
 
-  Future<bool> toggle(int productId) => isInWishlist(productId)
+  Future<String?> toggle(int productId) => isInWishlist(productId)
       ? removeFromWishlist(productId)
       : addToWishlist(productId);
 

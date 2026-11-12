@@ -20,9 +20,9 @@ class BookDetailsScreen extends StatelessWidget {
     bool saved,
   ) async {
     final messenger = ScaffoldMessenger.of(context);
-    final ok = await context.read<WishlistCubit>().toggle(productId);
-    if (!ok) {
-      showAppSnackBar(messenger, 'Something went wrong', isError: true);
+    final error = await context.read<WishlistCubit>().toggle(productId);
+    if (error != null) {
+      showAppSnackBar(messenger, error, isError: true);
       return;
     }
     showAppSnackBar(
@@ -33,11 +33,11 @@ class BookDetailsScreen extends StatelessWidget {
 
   Future<void> _addToCart(BuildContext context, int productId) async {
     final messenger = ScaffoldMessenger.of(context);
-    final ok = await context.read<CartCubit>().addToCart(productId);
+    final error = await context.read<CartCubit>().addToCart(productId);
     showAppSnackBar(
       messenger,
-      ok ? 'Added to cart' : 'Failed to add to cart',
-      isError: !ok,
+      error ?? 'Added to cart',
+      isError: error != null,
     );
   }
 

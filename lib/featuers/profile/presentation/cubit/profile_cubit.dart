@@ -16,14 +16,16 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (profile == null) emit(ProfileLoadingState());
 
     final result = await ProfileRepo.getProfile();
-    if (result != null) {
-      emit(ProfileSuccessState(result));
-    } else if (profile == null) {
-      emit(ProfileErrorState());
-    }
+    result.fold(
+      (failure) {
+        if (profile == null) emit(ProfileErrorState(failure.message));
+      },
+      (data) => emit(ProfileSuccessState(data)),
+    );
   }
 
-  Future<bool> updateProfile({
+  /// returns `null` on success, or the error message
+  Future<String?> updateProfile({
     required String name,
     required String phone,
     required String city,
@@ -35,9 +37,10 @@ class ProfileCubit extends Cubit<ProfileState> {
       city: city,
       address: address,
     );
-    if (result == null) return false;
-    emit(ProfileSuccessState(result));
-    return true;
+    return result.fold<String?>((failure) => failure.message, (data) {
+      emit(ProfileSuccessState(data));
+      return null;
+    });
   }
 
   Future<void> logout() async {
