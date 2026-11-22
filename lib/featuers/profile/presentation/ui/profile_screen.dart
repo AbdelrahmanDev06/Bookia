@@ -45,8 +45,8 @@ class ProfileScreen extends StatelessWidget {
     navigator.pushNamedAndRemoveUntil(AppRoutes.WelcomeScreen, (_) => false);
   }
 
-  void _comingSoon(BuildContext context) =>
-      showAppSnackBar(ScaffoldMessenger.of(context), 'Coming soon');
+  void _open(BuildContext context, String route) =>
+      Navigator.pushNamed(context, route);
 
   @override
   Widget build(BuildContext context) {
@@ -129,30 +129,27 @@ class ProfileScreen extends StatelessWidget {
                         SizedBox(height: 28.h),
                         _ProfileTile(
                           title: 'My Orders',
-                          onTap: () => _comingSoon(context),
+                          onTap: () => _open(context, AppRoutes.orders),
                         ),
                         _ProfileTile(
                           title: 'Edit Profile',
-                          onTap: () => Navigator.pushNamed(
-                            context,
-                            AppRoutes.editProfile,
-                          ),
+                          onTap: () => _open(context, AppRoutes.editProfile),
                         ),
                         _ProfileTile(
                           title: 'Reset Password',
-                          onTap: () => _comingSoon(context),
+                          onTap: () => _open(context, AppRoutes.changePassword),
                         ),
                         _ProfileTile(
                           title: 'FAQ',
-                          onTap: () => _comingSoon(context),
+                          onTap: () => _open(context, AppRoutes.faq),
                         ),
                         _ProfileTile(
                           title: 'Contact Us',
-                          onTap: () => _comingSoon(context),
+                          onTap: () => _open(context, AppRoutes.contactUs),
                         ),
                         _ProfileTile(
                           title: 'Privacy & Terms',
-                          onTap: () => _comingSoon(context),
+                          onTap: () => _open(context, AppRoutes.privacy),
                         ),
                       ],
                     ),

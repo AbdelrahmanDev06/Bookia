@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookia_app/core/errors/failure.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/data/models/slider_model.dart';
 import 'package:bookia_app/featuers/home/data/repo/home_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {

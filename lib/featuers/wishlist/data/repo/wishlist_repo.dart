@@ -5,11 +5,10 @@ import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:dartz/dartz.dart';
 
 class WishlistRepo {
-  static const String _baseUrl = 'https://codingarabic.eraapro.com/api';
 
   static Future<Either<Failure, List<ProductModel>>> getWishlist() {
     return safeApiCall(() async {
-      final response = await DioProvider.get('$_baseUrl/wishlist');
+      final response = await DioProvider.get('/wishlist');
       return _parse(response.data);
     });
   }
@@ -17,7 +16,7 @@ class WishlistRepo {
   static Future<Either<Failure, Unit>> addToWishlist(int productId) {
     return safeApiCall(() async {
       await DioProvider.post(
-        '$_baseUrl/add-to-wishlist',
+        '/add-to-wishlist',
         body: {'product_id': productId},
       );
       return unit;
@@ -27,7 +26,7 @@ class WishlistRepo {
   static Future<Either<Failure, Unit>> removeFromWishlist(int productId) {
     return safeApiCall(() async {
       await DioProvider.post(
-        '$_baseUrl/remove-from-wishlist',
+        '/remove-from-wishlist',
         body: {'product_id': productId},
       );
       return unit;

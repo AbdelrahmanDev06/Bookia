@@ -1,3 +1,4 @@
+import 'package:bookia_app/core/routes/app_routes.dart';
 import 'package:bookia_app/core/theme/app_colors.dart';
 import 'package:bookia_app/core/utils/price_formatter.dart';
 import 'package:bookia_app/core/widgets/main_button.dart';
@@ -48,7 +49,7 @@ class CartScreen extends StatelessWidget {
                                       horizontal: 22.w,
                                     ),
                                     itemCount: cart.items.length,
-                                    separatorBuilder: (_, __) =>
+                                    separatorBuilder: (_, _) =>
                                         SizedBox(height: 12.h),
                                     itemBuilder: (context, index) {
                                       final item = cart.items[index];
@@ -116,10 +117,7 @@ class _CartFooter extends StatelessWidget {
             text: 'Checkout',
             onPressed: cart.items.isEmpty
                 ? null
-                : () => showAppSnackBar(
-                      ScaffoldMessenger.of(context),
-                      'Checkout is coming soon',
-                    ),
+                : () => Navigator.pushNamed(context, AppRoutes.checkout),
           ),
         ],
       ),

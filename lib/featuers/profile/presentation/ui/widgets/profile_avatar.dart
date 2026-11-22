@@ -16,7 +16,7 @@ class ProfileAvatar extends StatelessWidget {
       radius: radius,
       backgroundColor: const Color(0xFFD9D9D9),
       foregroundImage: hasImage ? NetworkImage(profile!.image) : null,
-      onForegroundImageError: hasImage ? (_, __) {} : null,
+      onForegroundImageError: hasImage ? (_, _) {} : null,
       child: Icon(
         Icons.person,
         size: radius,

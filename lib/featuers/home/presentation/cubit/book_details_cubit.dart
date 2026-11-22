@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/data/repo/home_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 part 'book_details_state.dart';
 
 class BookDetailsCubit extends Cubit<BookDetailsState> {

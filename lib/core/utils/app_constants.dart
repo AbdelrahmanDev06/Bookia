@@ -1,3 +1,3 @@
 class AppConstants {
-  static const String userTokenKey = 'user_token';
+  static const String baseUrl = 'https://codingarabic.eraapro.com/api';
 }

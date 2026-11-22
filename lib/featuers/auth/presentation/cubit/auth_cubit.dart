@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookia_app/core/services/local_helper.dart';
 import 'package:bookia_app/featuers/auth/data/repo/auth_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {

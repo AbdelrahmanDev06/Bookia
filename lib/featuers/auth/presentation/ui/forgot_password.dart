@@ -1,8 +1,10 @@
 import 'package:bookia_app/core/theme/app_colors.dart';
+import 'package:bookia_app/core/utils/app_validator.dart';
 import 'package:bookia_app/core/widgets/custom_text_field.dart';
 import 'package:bookia_app/core/widgets/main_button.dart';
 import 'package:bookia_app/core/widgets/state_views.dart';
 import 'package:bookia_app/featuers/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia_app/featuers/auth/presentation/ui/otp_screen.dart';
 import 'package:bookia_app/featuers/profile/presentation/ui/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +42,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           final messenger = ScaffoldMessenger.of(context);
           if (state is ForgetPasswordSuccessState) {
             showAppSnackBar(messenger, state.message);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => OtpScreen(email: _emailCtrl.text.trim()),
+              ),
+            );
           } else if (state is ForgetPasswordErrorState) {
             showAppSnackBar(messenger, state.message, isError: true);
           }
@@ -80,15 +88,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         controller: _emailCtrl,
                         hint: 'Enter your email',
                         keyboardType: TextInputType.emailAddress,
-                        validator: (v) {
-                          if (v == null || v.trim().isEmpty) {
-                            return 'Email is required';
-                          }
-                          final ok = RegExp(
-                            r'^[^@\s]+@[^@\s]+\.[^@\s]+$',
-                          ).hasMatch(v.trim());
-                          return ok ? null : 'Enter a valid email';
-                        },
+                        validator: AppValidator.email,
                       ),
                       SizedBox(height: 30.h),
                       if (state is LoadLoadingState)

@@ -5,11 +5,10 @@ import 'package:bookia_app/featuers/cart/data/models/cart_model.dart';
 import 'package:dartz/dartz.dart';
 
 class CartRepo {
-  static const String _baseUrl = 'https://codingarabic.eraapro.com/api';
 
   static Future<Either<Failure, CartModel>> getCart() {
     return safeApiCall(() async {
-      final response = await DioProvider.get('$_baseUrl/cart');
+      final response = await DioProvider.get('/cart');
       return CartModel.fromResponse(response.data);
     });
   }
@@ -17,7 +16,7 @@ class CartRepo {
   static Future<Either<Failure, CartModel>> addToCart(int productId) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/add-to-cart',
+        '/add-to-cart',
         body: {'product_id': productId},
       );
       return CartModel.fromResponse(response.data);
@@ -30,7 +29,7 @@ class CartRepo {
   }) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/update-cart',
+        '/update-cart',
         body: {'cart_item_id': cartItemId, 'quantity': quantity},
       );
       return CartModel.fromResponse(response.data);
@@ -40,7 +39,7 @@ class CartRepo {
   static Future<Either<Failure, CartModel>> removeFromCart(int cartItemId) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/remove-from-cart',
+        '/remove-from-cart',
         body: {'cart_item_id': cartItemId},
       );
       return CartModel.fromResponse(response.data);

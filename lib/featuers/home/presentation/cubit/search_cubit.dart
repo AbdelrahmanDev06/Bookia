@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bookia_app/featuers/home/data/models/product_model.dart';
 import 'package:bookia_app/featuers/home/data/repo/home_repo.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/foundation.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
@@ -12,7 +12,7 @@ class SearchCubit extends Cubit<SearchState> {
   Timer? _debounce;
   String _lastQuery = '';
 
-  onQueryChanged(String query) {
+  void onQueryChanged(String query) {
     _debounce?.cancel();
     final name = query.trim();
     _lastQuery = name;
@@ -25,7 +25,7 @@ class SearchCubit extends Cubit<SearchState> {
     _debounce = Timer(const Duration(milliseconds: 500), () => search(name));
   }
 
-  search(String name) async {
+  Future<void> search(String name) async {
     emit(SearchLoadingState());
     final result = await HomeRepo.searchProducts(name);
 

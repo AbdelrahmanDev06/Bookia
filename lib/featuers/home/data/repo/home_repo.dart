@@ -6,11 +6,10 @@ import 'package:bookia_app/featuers/home/data/models/slider_model.dart';
 import 'package:dartz/dartz.dart';
 
 class HomeRepo {
-  static const String _baseUrl = 'https://codingarabic.eraapro.com/api';
 
   static Future<Either<Failure, List<ProductModel>>> getBestSeller() {
     return safeApiCall(() async {
-      final response = await DioProvider.get('$_baseUrl/products-bestseller');
+      final response = await DioProvider.get('/products-bestseller');
       return ProductModel.listFromResponse(
         Map<String, dynamic>.from(response.data),
       );
@@ -25,7 +24,7 @@ class HomeRepo {
 
       do {
         final response = await DioProvider.get(
-          '$_baseUrl/products',
+          '/products',
           query: {'page': page},
         );
         final json = Map<String, dynamic>.from(response.data);
@@ -40,7 +39,7 @@ class HomeRepo {
 
   static Future<Either<Failure, List<SliderModel>>> getSliders() {
     return safeApiCall(() async {
-      final response = await DioProvider.get('$_baseUrl/sliders');
+      final response = await DioProvider.get('/sliders');
       return SliderModel.listFromResponse(
         Map<String, dynamic>.from(response.data),
       );
@@ -49,7 +48,7 @@ class HomeRepo {
 
   static Future<Either<Failure, ProductModel>> getProductDetails(int id) {
     return safeApiCall(() async {
-      final response = await DioProvider.get('$_baseUrl/products/$id');
+      final response = await DioProvider.get('/products/$id');
       final product = ProductModel.fromDetailsResponse(
         Map<String, dynamic>.from(response.data),
       );
@@ -63,7 +62,7 @@ class HomeRepo {
   ) {
     return safeApiCall(() async {
       final response = await DioProvider.get(
-        '$_baseUrl/products-search',
+        '/products-search',
         query: {'name': name},
       );
       return ProductModel.listFromResponse(

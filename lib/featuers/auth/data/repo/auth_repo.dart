@@ -5,7 +5,6 @@ import 'package:bookia_app/featuers/auth/data/models/auth_models.dart';
 import 'package:dartz/dartz.dart';
 
 class AuthRepo {
-  static const String _baseUrl = 'https://codingarabic.eraapro.com/api';
 
   static Future<Either<Failure, AuthResponse>> login({
     required String email,
@@ -13,7 +12,7 @@ class AuthRepo {
   }) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/login',
+        '/login',
         body: LoginParams(email: email, password: password).toJson(),
       );
       final auth = AuthResponse.fromJson(
@@ -34,7 +33,7 @@ class AuthRepo {
   }) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/register',
+        '/register',
         body: RegisterParams(
           name: name,
           email: email,
@@ -50,12 +49,46 @@ class AuthRepo {
   static Future<Either<Failure, String>> forgetPassword(String email) {
     return safeApiCall(() async {
       final response = await DioProvider.post(
-        '$_baseUrl/forget-password',
+        '/forget-password',
         body: {'email': email},
       );
-      final data = response.data;
-      return (data is Map ? data['message']?.toString() : null) ??
-          'Password reset request sent';
+      return messageOf(response.data) ?? 'Password reset code sent';
     });
   }
+
+  static Future<Either<Failure, String>> checkForgetPasswordCode({
+    required String email,
+    required String code,
+  }) {
+    return safeApiCall(() async {
+      final response = await DioProvider.post(
+        '/check-forget-password',
+        body: {'email': email, 'verify_code': int.tryParse(code) ?? code},
+      );
+      return messageOf(response.data) ?? 'Code verified';
+    });
+  }
+
+  static Future<Either<Failure, String>> resetPassword({
+    required String code,
+    required String password,
+    required String confirmPassword,
+  }) {
+    return safeApiCall(() async {
+      final response = await DioProvider.post(
+        '/reset-password',
+        body: {
+          'verify_code': int.tryParse(code) ?? code,
+          'new_password': password,
+          'new_password_confirmation': confirmPassword,
+        },
+      );
+      return messageOf(response.data) ?? 'Password changed successfully';
+    });
+  }
+}
+
+String? messageOf(dynamic data) {
+  final message = data is Map ? data['message']?.toString() : null;
+  return (message == null || message.isEmpty) ? null : message;
 }
