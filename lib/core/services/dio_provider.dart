@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 class DioProvider {
   static late final Dio _dio;
 
-  /// called when the server says the token is no longer valid (401)
   static void Function()? onUnauthorized;
 
   static void init() {

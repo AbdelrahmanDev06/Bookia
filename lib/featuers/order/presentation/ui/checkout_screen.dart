@@ -59,7 +59,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       (failure) => setState(() => _governoratesError = failure.message),
       (list) => setState(() {
         _governorates = list;
-        // try to preselect the city saved in the profile
         final city = context.read<ProfileCubit>().profile?.city.toLowerCase();
         if (city != null && city.isNotEmpty) {
           for (final g in list) {
@@ -92,7 +91,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     result.fold(
       (failure) => showAppSnackBar(messenger, failure.message, isError: true),
       (_) {
-        // the server empties the cart after placing the order
         cartCubit.getCart();
         navigator.pushReplacement(
           MaterialPageRoute(builder: (_) => const OrderSuccessScreen()),

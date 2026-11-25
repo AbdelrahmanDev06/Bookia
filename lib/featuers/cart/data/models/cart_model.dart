@@ -9,7 +9,6 @@ class CartModel {
 
   factory CartModel.empty() => CartModel(id: 0, total: 0, items: []);
 
-  // response: { data: { id, user, total, cart_items: [...] }, message, status }
   static CartModel fromResponse(dynamic json) {
     final data = json is Map ? json['data'] : null;
     if (data is! Map) return CartModel.empty();

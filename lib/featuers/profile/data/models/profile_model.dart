@@ -19,7 +19,6 @@ class ProfileModel {
     required this.image,
   });
 
-  // response: { data: { id, name, email, address, city, phone, image } }
   static ProfileModel? fromResponse(dynamic json) {
     final data = json is Map ? json['data'] : null;
     if (data is! Map) return null;
@@ -34,6 +33,5 @@ class ProfileModel {
     );
   }
 
-  /// the API returns ".../storage" when the user has no photo
   bool get hasImage => image.isNotEmpty && !image.endsWith('/storage');
 }

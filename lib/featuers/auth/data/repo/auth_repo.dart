@@ -45,7 +45,6 @@ class AuthRepo {
     });
   }
 
-  /// returns the message sent by the server
   static Future<Either<Failure, String>> forgetPassword(String email) {
     return safeApiCall(() async {
       final response = await DioProvider.post(

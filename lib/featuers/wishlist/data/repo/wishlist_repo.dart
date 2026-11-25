@@ -33,8 +33,6 @@ class WishlistRepo {
     });
   }
 
-  // response: { data: [ {id, name, price, category_name, image} ] }
-  // (some versions wrap it: { data: { data: [...] } })
   static List<ProductModel> _parse(dynamic json) {
     if (json is! Map) return [];
     var data = json['data'];

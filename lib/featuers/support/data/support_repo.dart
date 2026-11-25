@@ -11,7 +11,6 @@ class FaqModel {
   FaqModel({required this.question, required this.answer});
 }
 
-/// store contact info from `/settings`
 class StoreInfo {
   final List<String> phones;
   final List<String> mails;

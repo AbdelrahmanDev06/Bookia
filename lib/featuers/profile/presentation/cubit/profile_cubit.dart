@@ -24,7 +24,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
-  /// returns `null` on success, or the error message
   Future<String?> updateProfile({
     required String name,
     required String phone,

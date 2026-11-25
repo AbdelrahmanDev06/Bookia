@@ -3,8 +3,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-/// wraps any API call:
-/// success -> Right(data) , any exception -> Left(Failure)
 Future<Either<Failure, T>> safeApiCall<T>(Future<T> Function() call) async {
   try {
     return Right(await call());

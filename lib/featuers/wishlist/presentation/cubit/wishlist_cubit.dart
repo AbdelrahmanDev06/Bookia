@@ -4,12 +4,10 @@ import 'package:bookia_app/featuers/wishlist/data/repo/wishlist_repo.dart';
 import 'package:flutter/foundation.dart';
 part 'wishlist_state.dart';
 
-/// action methods return `null` on success, or the error message on failure
 class WishlistCubit extends Cubit<WishlistState> {
   WishlistCubit() : super(WishlistInitial());
 
   Future<void> getWishlist() async {
-    // show the loader only the first time, after that refresh silently
     if (state is! WishlistSuccessState) emit(WishlistLoadingState());
 
     final result = await WishlistRepo.getWishlist();
@@ -46,7 +44,6 @@ class WishlistCubit extends Cubit<WishlistState> {
       );
     }
     final result = await WishlistRepo.removeFromWishlist(productId);
-    // re-sync with the server (restores the item if the remove failed)
     await getWishlist();
     return result.fold<String?>((failure) => failure.message, (_) => null);
   }

@@ -35,7 +35,6 @@ class ProfileRepo {
     });
   }
 
-  /// returns the server message on success
   static Future<Either<Failure, String>> changePassword({
     required String currentPassword,
     required String newPassword,
@@ -60,7 +59,6 @@ class ProfileRepo {
     return profile;
   }
 
-  /// always clears the local token, even if the request fails
   static Future<void> logout() async {
     await safeApiCall(() => DioProvider.post('/logout'));
     await LocalHelper.clearToken();

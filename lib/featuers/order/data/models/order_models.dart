@@ -13,7 +13,6 @@ class GovernorateModel {
             .toString(),
       );
 
-  // response: { data: [ { id, governorate_name_en } ] }
   static List<GovernorateModel> listFromResponse(dynamic json) {
     final data = json is Map ? json['data'] : null;
     if (data is! List) return [];
@@ -24,7 +23,6 @@ class GovernorateModel {
   }
 }
 
-/// one row in the order history list
 class OrderSummaryModel {
   final int id;
   final String code;
@@ -63,7 +61,6 @@ class OrdersPage {
 
   bool get hasMore => currentPage < lastPage;
 
-  // response: { data: { orders: [...], meta: { current_page, last_page } } }
   factory OrdersPage.fromResponse(dynamic json) {
     final data = json is Map ? json['data'] : null;
     final orders = data is Map ? data['orders'] : null;

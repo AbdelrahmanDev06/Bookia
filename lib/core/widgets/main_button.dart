@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainButton extends StatelessWidget {
-  /// Filled gold button (Login).
   const MainButton({
     super.key,
     required this.text,
@@ -13,7 +12,6 @@ class MainButton extends StatelessWidget {
     this.borderColor,
   });
 
-  /// White button with dark border (Register).
   const MainButton.outlined({
     super.key,
     required this.text,

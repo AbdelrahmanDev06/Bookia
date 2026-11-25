@@ -4,7 +4,6 @@ import 'package:bookia_app/featuers/cart/data/repo/cart_repo.dart';
 import 'package:flutter/foundation.dart';
 part 'cart_state.dart';
 
-/// action methods return `null` on success, or the error message on failure
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartInitial());
 
@@ -19,7 +18,6 @@ class CartCubit extends Cubit<CartState> {
     final result = await CartRepo.getCart();
     result.fold(
       (failure) {
-        // keep showing the old cart if we already have one
         if (_cart == null) emit(CartErrorState(failure.message));
       },
       (cart) => emit(CartSuccessState(cart)),

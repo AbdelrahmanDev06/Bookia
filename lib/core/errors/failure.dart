@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Base error object that moves from the repo -> cubit -> UI
 class Failure {
   final String message;
   final int? statusCode;
@@ -11,7 +10,6 @@ class Failure {
   String toString() => message;
 }
 
-/// Errors coming from the API / network (Dio)
 class ServerFailure extends Failure {
   const ServerFailure(super.message, {super.statusCode});
 
@@ -34,13 +32,11 @@ class ServerFailure extends Failure {
           e.response?.statusCode,
           e.response?.data,
         );
-      default: // DioExceptionType.unknown
+      default:
         return const ServerFailure('Unexpected error, please try again');
     }
   }
 
-  /// reads the message the backend sends, e.g.
-  /// { "message": "...", "errors": { "email": ["The email has already been taken."] } }
   factory ServerFailure.fromResponse(int? statusCode, dynamic data) {
     final serverMessage = _extractMessage(data);
 
@@ -84,7 +80,6 @@ class ServerFailure extends Failure {
   static String? _extractMessage(dynamic data) {
     if (data is! Map) return null;
 
-    // validation errors have priority because they are more specific
     for (final key in ['errors', 'error']) {
       final errors = data[key];
       if (errors is Map && errors.isNotEmpty) {

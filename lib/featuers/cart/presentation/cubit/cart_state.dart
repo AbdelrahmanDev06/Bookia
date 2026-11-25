@@ -10,7 +10,6 @@ final class CartLoadingState extends CartState {}
 final class CartSuccessState extends CartState {
   final CartModel cart;
 
-  /// item currently being updated / removed (to show a small loader on it)
   final int? busyItemId;
 
   CartSuccessState(this.cart, {this.busyItemId});

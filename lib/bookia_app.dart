@@ -44,7 +44,6 @@ class _BookiaAppState extends State<BookiaApp> {
     return AppRoutes.WelcomeScreen;
   }
 
-  /// token expired / revoked: reset user data and send the user to login
   void _onUnauthorized() {
     final context = _navigatorKey.currentContext;
     if (_handlingUnauthorized || context == null) return;
@@ -73,7 +72,6 @@ class _BookiaAppState extends State<BookiaApp> {
 
   @override
   Widget build(BuildContext context) {
-    // app-level cubits: shared between the bottom nav tabs and other screens
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => WishlistCubit()),

@@ -68,7 +68,6 @@ class AuthResponse {
 
   AuthResponse({this.token, this.user, this.message});
 
-  // الـ response: { data: { user: {...}, token: "..." }, message, status }
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
     final data = json['data'];
     return AuthResponse(

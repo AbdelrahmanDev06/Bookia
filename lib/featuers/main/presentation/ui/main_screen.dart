@@ -29,7 +29,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    // load everything once so the bookmark state / cart are ready
     context.read<WishlistCubit>().getWishlist();
     context.read<CartCubit>().getCart();
     context.read<ProfileCubit>().getProfile();
@@ -38,7 +37,6 @@ class _MainScreenState extends State<MainScreen> {
   void _onTabTapped(int index) {
     setState(() => _currentIndex = index);
 
-    // refresh the tab every time it's opened
     switch (index) {
       case 1:
         context.read<WishlistCubit>().getWishlist();

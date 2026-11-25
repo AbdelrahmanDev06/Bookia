@@ -18,7 +18,6 @@ class HomeCubit extends Cubit<HomeState> {
       HomeRepo.getSliders(),
     ).wait;
 
-    // best sellers & products are required, sliders are optional
     final failure = bestSellersResult.fold<Failure?>((f) => f, (_) => null) ??
         productsResult.fold<Failure?>((f) => f, (_) => null);
     if (failure != null) {

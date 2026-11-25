@@ -29,7 +29,6 @@ class AppRouter {
       case AppRoutes.WelcomeScreen:
         return page(const WelcomeScreen());
       case AppRoutes.HomeScreen:
-        // home opens the main screen that holds the bottom nav bar
         return page(const MainScreen());
       case AppRoutes.search:
         return page(const SearchScreen());

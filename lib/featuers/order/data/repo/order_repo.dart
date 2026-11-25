@@ -19,7 +19,6 @@ class OrderRepo {
     });
   }
 
-  /// returns the server message on success
   static Future<Either<Failure, String>> placeOrder({
     required int governorateId,
     required String name,

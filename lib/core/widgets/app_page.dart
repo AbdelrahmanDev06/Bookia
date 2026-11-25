@@ -5,7 +5,6 @@ import 'package:bookia_app/featuers/profile/presentation/ui/widgets/profile_avat
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-/// page with the square back button + centered title used by inner screens
 class AppPage extends StatelessWidget {
   const AppPage({
     super.key,
@@ -17,7 +16,6 @@ class AppPage extends StatelessWidget {
   final String title;
   final Widget body;
 
-  /// pinned under the body (usually the main action button)
   final Widget? bottom;
 
   @override
@@ -56,7 +54,6 @@ class AppPage extends StatelessWidget {
   }
 }
 
-/// main button that turns into a spinner while [loading]
 class LoadingButton extends StatelessWidget {
   const LoadingButton({
     super.key,
